@@ -1,0 +1,63 @@
+========================
+templatemaker to-do list
+========================
+
+templatemaker.c
+===============
+
+* The function_make_template() C function has a hard-coded malloc length,
+  which makes it susceptible to buffer overflows and means it cannot handle
+  strings of arbitrary length.
+
+* Is there a more efficient algorithm for the longest_match() C function?
+
+templatemaker.py
+================
+
+* Create template, then load all known documents into it to get statistics
+  on which holes differ more frequently. Can't do this while loading
+  documents because a template's holes are not yet defined.
+
+* Keep track of hole values in known documents, and mark certain holes as
+  "pointless" if their values are duplicates.
+
+* Don't save \r\n\r\n\r\n\r\n.
+
+* Automatically determine which fields are dates/times, and have extract()
+  convert to datetime objects.
+
+* If learn() creates more holes, it should provide the PREVIOUS value for
+  that hole (before it was a hole) for all previous documents. Thus,
+  previous documents will be able to account for the new hole with the
+  correct value. For example:
+
+      >>> t = Template()
+      >>> t.learn('<b>this and that</b><br>')
+      >>> t.as_text('!')
+      '<b>this and that</b><br>'
+
+      >>> t.learn('<b>alex and sue</b><br>')
+      True
+      >>> t.as_text('!')
+      '<b>! and !</b><br>'
+
+      >>> t.last_change
+      {0: 'this', 1: 'that'}
+
+      >>> t.learn('<b>michael and scottie</b>')
+      True
+      >>> t.as_text('!')
+      '<b>! and !</b>!'
+      >>> t.last_change
+      {2: '<br>'}
+
+      >>> t.learn('<b>foo & bar</b><br>')
+      True
+      >>> t.as_text('!')
+      '<b>! ! !</b>!'
+      >>> t.last_change
+      {1: 'and'}
+
+ last_change is an attribute rather than being a return value of learn() to
+ keep things clean. The value of last_change is overridden each time learn() is
+ called.
