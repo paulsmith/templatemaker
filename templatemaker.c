@@ -111,7 +111,7 @@ void make_template(char* template, int tolerance, char* a, char* b, int a_start,
     }
 
     if (best_size > tolerance) {
-        strncpy(template+strlen(template), a+a_offset, best_size);
+        strncat(template, a+a_offset, best_size);
 
         if ((a_offset + best_size < a_end) && (b_offset + best_size < b_end)) {
             // There's leftover stuff on the right side of BOTH strings.
@@ -153,14 +153,20 @@ static PyObject * function_make_template(PyObject *self, PyObject *args) {
     char* template;
     char* a;
     char* b;
-    int tolerance;
+    int tolerance, lena, lenb;
     static PyObject* result;
+    int maxlen;
 
     if (!PyArg_ParseTuple(args, "ssi", &a, &b, &tolerance))
         return NULL;
-    template = (char *) malloc(524288 * sizeof(char)); // TODO: This is hard-coded.
+    lena = strlen(a);
+    lenb = strlen(b);
+
+    // Allocate enough memory to handle the maximum of len(a) or len(b).
+    maxlen = (lena > lenb ? lena : lenb) + 1;
+    template = (char *) malloc(maxlen * sizeof(char));
     strcpy(template, "");
-    make_template(template, tolerance, a, b, 0, strlen(a), 0, strlen(b));
+    make_template(template, tolerance, a, b, 0, lena, 0, lenb);
 
     result = Py_BuildValue("s", template);
     free(template);

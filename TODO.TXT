@@ -5,10 +5,6 @@ templatemaker to-do list
 templatemaker.c
 ===============
 
-* The function_make_template() C function has a hard-coded malloc length,
-  which makes it susceptible to buffer overflows and means it cannot handle
-  strings of arbitrary length.
-
 * Is there a more efficient algorithm for the longest_match() C function?
 
 templatemaker.py
