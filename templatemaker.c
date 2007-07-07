@@ -137,14 +137,15 @@ void make_template(char* template, int tolerance, char* a, char* b, int a_start,
 
 /*
 static PyObject * function_longest_match(PyObject *self, PyObject *args) {
-    int a_offset, b_offset;
     char* a;
     char* b;
+    int a_offset, b_offset, lena, lenb;
     unsigned int best_size;
 
-    if (!PyArg_ParseTuple(args, "ss", &a, &b))
+    if (!PyArg_ParseTuple(args, "s#s#", &a, &lena, &b, &lenb))
         return NULL;
-    best_size = longest_match(a, b, 0, strlen(a), 0, strlen(b), &a_offset, &b_offset);
+
+    best_size = longest_match(a, b, 0, lena, 0, lenb, &a_offset, &b_offset);
     return Py_BuildValue("(iii)", best_size, a_offset, b_offset);
 }
 */
@@ -153,28 +154,26 @@ static PyObject * function_make_template(PyObject *self, PyObject *args) {
     char* template;
     char* a;
     char* b;
-    int tolerance, lena, lenb;
-    static PyObject* result;
-    int maxlen;
+    int tolerance, lena, lenb, maxlen;
+    PyObject* result;
 
-    if (!PyArg_ParseTuple(args, "ssi", &a, &b, &tolerance))
+    if (!PyArg_ParseTuple(args, "s#s#i", &a, &lena, &b, &lenb, &tolerance))
         return NULL;
-    lena = strlen(a);
-    lenb = strlen(b);
 
     // Allocate enough memory to handle the maximum of len(a) or len(b).
     maxlen = (lena > lenb ? lena : lenb) + 1;
     template = (char *) malloc(maxlen * sizeof(char));
-    strcpy(template, "");
+    template[0] = '\0';
+
     make_template(template, tolerance, a, b, 0, lena, 0, lenb);
 
-    result = Py_BuildValue("s", template);
+    result = PyString_FromString(template);
     free(template);
     return result;
 }
 
 static PyObject * function_marker(PyObject *self, PyObject *args) {
-    return Py_BuildValue("s", MARKER);
+    return PyString_FromStringAndSize(MARKER, sizeof(MARKER)-1);
 }
 
 static PyMethodDef ModuleMethods[] = {
