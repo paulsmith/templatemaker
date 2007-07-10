@@ -41,12 +41,11 @@
  it starts with the highest possible LCS) and adds 1 to the shift index each
  time through, it can safely exit without doing any more comparisons.
 
- This algorithm is O^(m+n), where m and n are the length of the two strings.
- Due to short circuiting, the algorithm could potentially finish after the very
- first comparison. Thus, for strings of length 11 and 12, it could take
- anywhere from 1 to 23 comparisons to calculate the longest match. The
- algorithm is slowest when the LCS is smallest, and the algorithm is fastest
- when the LCS is biggest.
+ This algorithm is O^(m + m-1 + m-2 + ... + 1 + n + n-1 + n-2 + ... + 1), where
+ m and n are the length of the two strings. Due to short circuiting, the
+ algorithm could potentially finish after the very
+ first set of comparisons. The algorithm is slowest when the LCS is smallest,
+ and the algorithm is fastest when the LCS is biggest.
 
  longest_match_shifter() performs "one side" of the shift -- e.g., "Shift a to
  the right" in the above illustration. longest_match() simply calls
