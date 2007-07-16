@@ -65,6 +65,9 @@ Basic Python API
 
 Here's how to express the above example in Python code:
 
+    # Import the Template class.
+    >>> from templatemaker import Template
+
     # Create a Template instance.
     >>> t = Template()
 
