@@ -20,8 +20,8 @@ class NoMatch(Exception):
     pass
 
 class Template(object):
-    def __init__(self, tolerance=0):
-        self._brain = None
+    def __init__(self, tolerance=0, brain=None):
+        self._brain = brain
         self._tolerance = tolerance
         self.version = 0
 
