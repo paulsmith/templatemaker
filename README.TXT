@@ -117,6 +117,19 @@ Here's how to express the above example in Python code:
     ...
     NoMatch
 
+    # Use the extract_dict() method to get a dictionary instead of a tuple.
+    # extract_dict() requires that you specify a tuple of field names.
+    >>> t.extract_dict('<b>red and green</b>', ('value1', 'value2'))
+    {'value1': 'red', 'value2': 'green'}
+
+    # You can specify None as one or more of the field-name values in
+    # extract_dict(). Any field whose value is None will *not* be included
+    # in the resulting dictionary.
+    >>> t.extract_dict('<b>red and green</b>', ('value1', None))
+    {'value1': 'red'}
+    >>> t.extract_dict('<b>red and green</b>', (None, 'value2'))
+    {'value2': 'green'}
+
 The as_text() method
 ====================
 

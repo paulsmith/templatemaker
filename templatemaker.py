@@ -80,6 +80,25 @@ class Template(object):
             return m.groups()
         raise NoMatch
 
+    def extract_dict(self, text, field_names):
+        """
+        Extracts the data from `text` and uses the `field_names` tuple to
+        return a dictionary of the extracted data.
+
+        Returns a dictionary of the raw data according to field_names, which
+        should be a tuple of strings representing dictionary keys, in order.
+        Use None for one or more values in field_names to specify that a
+        certain value shouldn't be included in the dictionary.
+        """
+        data = self.extract(text)
+        data_dict = dict(zip(field_names, data))
+        try:
+            del data_dict[None]
+        except:
+            pass
+        return data_dict
+
+
     def from_directory(cls, dirname, tolerance=0):
         """
         Classmethod that learns all of the files in the given directory name.
