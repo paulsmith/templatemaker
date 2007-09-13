@@ -75,7 +75,6 @@ class Template(object):
         """
         text = self.clean(text)
         regex = '^(?s)%s$' % re.escape(self._brain).replace(re.escape(MARKER), '(.*?)')
-        print regex
         m = re.search(regex, text)
         if m:
             return m.groups()
