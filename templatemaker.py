@@ -74,7 +74,8 @@ class Template(object):
         the template. If the text doesn't match the template, raises NoMatch.
         """
         text = self.clean(text)
-        regex = '(?s)' + re.escape(self._brain).replace(re.escape(MARKER), '(.*?)')
+        regex = '^(?s)%s$' % re.escape(self._brain).replace(re.escape(MARKER), '(.*?)')
+        print regex
         m = re.search(regex, text)
         if m:
             return m.groups()
