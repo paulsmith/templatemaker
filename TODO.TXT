@@ -7,12 +7,21 @@ templatemaker.c
 
 * Is there a more efficient algorithm for the longest_match() C function?
 
+* Provide a Python fallback module.
+
 templatemaker.py
 ================
+
+* Allow for user definition of symbols that would be treated as "single"
+  units, instead of always using each character as a separate symbol for
+  comparison.
 
 * Create template, then load all known documents into it to get statistics
   on which holes differ more frequently. Can't do this while loading
   documents because a template's holes are not yet defined.
+
+* Keep track of which holes have only 2 to 5 possible values, and mark those
+  in a special way -- "option holes."
 
 * Keep track of hole values in known documents, and mark certain holes as
   "pointless" if their values are duplicates.

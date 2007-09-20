@@ -14,8 +14,6 @@ import re
 # to define it in more than one place.
 MARKER = marker()
 
-unwanted_tags_re = re.compile(r'(?si)<\s*?(script|style|noscript)\b.*?</\1>')
-
 class NoMatch(Exception):
     pass
 
@@ -30,7 +28,6 @@ class Template(object):
         Strips any unwanted stuff from the given Sample String, in order to
         make templates more streamlined.
         """
-        text = unwanted_tags_re.sub('', text)
         text = re.sub(r'\r\n', '\n', text)
         return text
 
@@ -110,3 +107,21 @@ class Template(object):
             print t.learn(open(os.path.join(dirname, f)).read())
         return t
     from_directory = classmethod(from_directory)
+
+class HTMLTemplate(Template):
+    """
+    A special version of Template that is a bit smarter about dealing with
+    HTML, assuming you care about identifying differences in the *content* of
+    an HTML page rather than differences in the markup/script.
+    """
+    def __init__(self, *args, **kwargs):
+        Template.__init__(self, *args, **kwargs)
+        self.unwanted_tags_re = re.compile(r'(?si)<\s*?(script|style|noscript)\b.*?</\1>')
+
+    def clean(self, text):
+        """
+        Strips out <script>, <style> and <noscript> tags and everything within
+        them.
+        """
+        text = self.unwanted_tags_re.sub('', text)
+        return Template.clean(self, text)

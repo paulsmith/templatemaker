@@ -16,13 +16,13 @@ C portion of it. Fortunately, Python makes this easy.
 
 To install systemwide:
 
-	sudo python setup.py install
+    sudo python setup.py install
 
 To play around with it without having to install systemwide:
 
-	python setup.py build
-	cp build/lib*/_templatemaker.so .
-	rm -rf build
+    python setup.py build
+    cp build/lib*/_templatemaker.so .
+    rm -rf build
 
 Overview
 ========
@@ -343,3 +343,9 @@ However, there are two disadvantages:
       the marker character "\x1f", you can change the MARKER value at the top
       of templatemaker.c and recompile it. Or, suggest a better character to
       the authors.
+
+Change log
+==========
+
+2007-09-20    0.1.1    Created HTMLTemplate
+2007-07-06    0.1      Initial release
