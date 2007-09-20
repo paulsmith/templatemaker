@@ -7,7 +7,7 @@ License: BSD
 See readme.txt for full documentation.
 """
 
-from _templatemaker import make_template, marker
+from _template import make_template, marker
 import re
 
 # The marker character lives in _templatemaker.marker() so we don't have
